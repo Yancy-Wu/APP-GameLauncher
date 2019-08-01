@@ -1,0 +1,65 @@
+$NS: page-main-game-info-;
+
+.#{$NS}root{
+    background-image: url('../../../../resources/update-back.svg');
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.#{$NS}title{
+    color:rgb(174, 194, 193);
+    margin-top: 1.2em;
+    margin-bottom: 0.5em;
+    font-size: 0.8em;
+}
+
+.#{$NS}description{
+    color:rgb(255,255,255);
+    height:1.6em;
+    line-height: 1.6em;
+    & > span{
+        font-size: 0.7em;
+    }
+    & > :last-child{
+        &::before{
+            content: '';
+            margin-left: 1em;
+        }
+    }
+}
+
+.#{$NS}line{
+    height:1.4em;
+    line-height: 1.4em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 15em;
+    color: rgb(200,200,200);
+    & > span{
+        font-size: 0.7em;
+    }
+    & > :last-child{
+        &::before{
+            content: '';
+            margin-left: 1em;
+        }
+    }
+}
+
+.#{$NS}btns{
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width:100%;
+    bottom:1em;
+}
+
+.#{$NS}btn{
+    height: 2em;
+    width: 7em;
+    font-size: 0.8em;
+}

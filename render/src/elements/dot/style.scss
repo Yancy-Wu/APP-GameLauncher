@@ -1,0 +1,16 @@
+$NS: element-dot-;
+
+.#{$NS}root{
+  width: 1em;
+  height: 1em;
+  border-radius: 100%;
+  background-color: rgb(255,255,255);
+  transition: all 0.1s linear;
+  &:hover{
+    background-color: rgb(240, 190, 27);
+  }
+}
+
+.#{$NS}hover{
+  background-color: rgb(240, 190, 27);
+}

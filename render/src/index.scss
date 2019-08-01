@@ -1,0 +1,125 @@
+html,body,#root{
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.layer{
+  position: absolute;
+  left:0;
+  top:0;
+  height:100%;
+  width: 100%;
+}
+
+.child-center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main{
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.back{
+  z-index: -1;
+  & video{
+    display: block;
+    object-fit: fill;
+  }
+}
+
+.page{
+  z-index: 0;
+}
+
+.dialog{
+  z-index: 50;
+  background: #00000088;
+}
+
+.titlebar{
+  position: absolute;
+  top:0;
+  left:0;
+  display: flex;
+  flex-direction: row-reverse;
+  height:2em;
+  align-items: center;
+  width: 100%;
+  background-color:rgba(0,0,0,0.8);
+  z-index:100;
+}
+
+.system-icon{
+  height:0.8em;
+  width:0.8em;
+  margin: 0 0.4em;
+  cursor: pointer;
+}
+
+.switch-id{
+  width: 5em;
+  overflow:hidden;
+  font-size: 0.8em;
+  margin-right: 1em;
+  color: #BBBBBB;
+  cursor: pointer;
+  padding-top:0.1em;
+  transition: all linear 0.1s;
+  display: table;
+  vertical-align: center;
+  &:hover{
+    text-shadow: 0 2px 0.4em black;
+  }
+}
+
+.username{
+  max-width: 8em;
+  margin-right:1em;
+  padding-top:0.1em;
+  font-size: 0.8em;
+  color:#ffffff;
+  transition: all linear 0.1s;
+  cursor: pointer;
+  &:hover{
+    text-shadow: 0 2px 0.4em white;
+  }
+}
+
+.logo{
+  width:1.6em;
+  height:1.6em;
+  margin-left:2em;
+}
+
+.user-icon{
+  height:1.4em;
+  width:1.4em;
+  margin: 0 0.6em;
+  cursor: pointer;
+}
+
+.switcher{
+  width: fit-content;
+  position: absolute;
+  top: 2em;
+  left: 1em;
+  z-index: 2;
+  background-image: linear-gradient(to bottom, #00000088, #00000000);
+}
+
+.switcher-icon{
+  height:3em;
+  width:3em;
+}
+

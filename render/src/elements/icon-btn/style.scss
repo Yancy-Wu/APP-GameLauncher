@@ -1,0 +1,35 @@
+$NS: element-icon-btn-;
+
+$radius: 10px;
+$padding-v: 5px;
+$padding-h: 5px;
+
+.#{$NS}root{
+  position: relative;
+  user-select: none;
+  padding: $padding-v $padding-h;
+  cursor: pointer;
+  & img{
+    position: absolute;
+    height:calc(100% - #{2 * $padding-v});
+    width:calc(100% - #{2 * $padding-h});
+    border-radius: $radius;
+  }
+  & div{
+    position: absolute;
+    height:calc(100% - #{2 * $padding-v});
+    width:calc(100% - #{2 * $padding-h});
+    transition: all 0.2s linear;
+    background-color: transparent;
+    border-radius: $radius;
+  }
+  &:active, &:focus{
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  &:hover div{
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  &:active div, &:focus div{
+    background-color: transparent;
+  }
+}

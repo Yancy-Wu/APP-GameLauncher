@@ -1,0 +1,104 @@
+$NS: page-main-game-;
+
+.#{$NS}root{
+    position: absolute;
+    top: 2em;
+    bottom: 0em;
+    right:0;
+    width:18em;
+}
+
+.#{$NS}show{
+    position: absolute;
+    top: 0;
+    height:calc(55% - 2em);
+    width:15em;
+    padding: 1em 1.5em;
+}
+
+.#{$NS}main{
+    position: absolute;
+    bottom: 0;
+    height:40%;
+    width:18em;
+}
+
+.#{$NS}info{
+    position: absolute;
+    bottom: 1.8em;
+    height: calc(45% - 1.8em);
+    width:18em;
+}
+
+.#{$NS}select-service{
+    height:2em;
+    width:14em;
+    margin:0.5em 2em;
+    background-image: url('../../../resources/service-back.svg');
+    background-size: 100% 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.#{$NS}text{
+    line-height: 2.5em;
+    user-select: none;
+    margin-left:4em;
+    color:rgba(200,200,200,0.6);
+    font-size:0.8em;
+}
+
+.#{$NS}select-service-btn{
+    margin-left:1em;
+}
+
+.#{$NS}btn{
+    margin:1em 3em;
+    width: auto;
+    height: 3em;
+}
+
+.#{$NS}aux{
+    position: absolute;
+    bottom: 3em;
+    width:15em;
+    padding: 0 1.5em;
+    height: 2em;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+.#{$NS}aux-btn{
+    color: rgb(231, 151, 29);
+    font-size: 0.8em;
+    margin-left:1em;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.#{$NS}trape-btn{
+    position: absolute;
+    bottom:0.6em;
+    width:6em;
+    height:0;
+    border-bottom: 1.6em solid rgba(0,0,0,0.6);
+    border-left: 1em solid transparent;
+    border-right: 1em solid transparent;
+    margin:0 8em;
+    color:rgb(200,200,200);
+    font-size:0.8em;
+    padding-top:0.2em;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.#{$NS}bar{
+    position: absolute !important;
+    bottom:0;
+    width: 100%;
+    z-index:-1;
+}

@@ -1,0 +1,9 @@
+$NS: element-avatar-;
+
+.#{$NS}root{
+  opacity: 0.5;
+  transition: all linear 0.3s;
+  &:hover{
+    opacity: 1;
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "./static/css/main.db48a6b4.chunk.css",
+    "main.js": "./static/js/main.b1de542c.chunk.js",
+    "main.js.map": "./static/js/main.b1de542c.chunk.js.map",
+    "runtime~main.js": "./static/js/runtime~main.d653cc00.js",
+    "runtime~main.js.map": "./static/js/runtime~main.d653cc00.js.map",
+    "static/js/2.649bf2dc.chunk.js": "./static/js/2.649bf2dc.chunk.js",
+    "static/js/2.649bf2dc.chunk.js.map": "./static/js/2.649bf2dc.chunk.js.map",
+    "index.html": "./index.html",
+    "precache-manifest.937d80f1222827aabe8b94bfd914b57c.js": "./precache-manifest.937d80f1222827aabe8b94bfd914b57c.js",
+    "service-worker.js": "./service-worker.js",
+    "static/css/main.db48a6b4.chunk.css.map": "./static/css/main.db48a6b4.chunk.css.map",
+    "static/media/close.svg": "./static/media/close.76082bd6.svg",
+    "static/media/logo.png": "./static/media/logo.11ff5e75.png",
+    "static/media/menu.svg": "./static/media/menu.e293d6e8.svg",
+    "static/media/min.svg": "./static/media/min.cdd8c361.svg",
+    "static/media/style.scss": "./static/media/update-back.bc2492be.svg",
+    "static/media/test.mp4": "./static/media/test.198918f4.mp4",
+    "static/media/tutem.png": "./static/media/tutem.0e600bb1.png",
+    "static/media/wechat.svg": "./static/media/wechat.44c66d9e.svg",
+    "static/media/weibo.svg": "./static/media/weibo.5bffe793.svg"
+  }
+}

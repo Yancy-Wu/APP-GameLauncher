@@ -1,0 +1,12 @@
+$NS: element-input-;
+
+.#{$NS}root{
+  padding: 0.3em 0.5em;
+  background-color: rgb(11, 32, 59);
+  color:rgb(220,220,220);
+  font-size:0.8em;
+  border: 1px solid rgb(23, 67, 124);
+  &:focus{
+    outline: none;
+  }
+}

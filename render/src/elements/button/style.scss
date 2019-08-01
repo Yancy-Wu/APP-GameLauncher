@@ -1,0 +1,82 @@
+$NS: element-btn-;
+
+$svg-width : 500;
+$svg-height : 100;
+$flash-line-length: 100;
+$font-size: 1em;
+
+@function pathLength($w, $h){
+  @return $w + $h * (0.6 + 0.4 * 1.414);
+}
+
+$length: pathLength($svg-width, $svg-height);
+
+.#{$NS}root{
+  position: relative;
+  font-size: $font-size;
+  color: white;
+  cursor: pointer;
+  span{
+    user-select: none;
+    pointer-events: none;
+  }
+}
+
+.#{$NS}back{
+  position: relative;
+  height: calc(100% - 3px);
+  width: calc(100% - 2px);
+}
+
+.#{$NS}back-fade{
+  filter: grayscale(1);
+}
+
+.#{$NS}small-border{
+  width: calc(100% - 6px);
+  height: calc(100% - 6px);
+
+  .#{$NS}line{
+    fill:transparent;
+    stroke:#BBBBBB;
+    stroke-width: 4px;
+  }
+  
+  .#{$NS}flash-line {
+    stroke:#FFFFFF;
+    stroke-dasharray: $flash-line-length 10000;
+    fill:transparent;
+    stroke-width: 4px;
+    animation: dash 3s linear infinite;
+  }
+  
+  @keyframes dash {
+      0% {stroke-dashoffset: #{$flash-line-length};}
+      20% {stroke-dashoffset: -$length;}
+      100% {stroke-dashoffset: -$length;}
+  }
+}
+
+.#{$NS}big-border{
+  width: 100%;
+  height: 100%;
+
+  .#{$NS}line-hover{
+    fill:transparent;
+    stroke:#BBBBBB;
+    stroke-width: 0.5rem;
+    stroke-dasharray: $length 10000;
+    animation: dash2 0.3s ease-out;
+  }
+  
+  .#{$NS}line{
+    fill:transparent;
+    stroke:transparent;
+    animation: none;
+  }
+
+  @keyframes dash2 {
+      0% {stroke-dashoffset: 2 * $flash-line-length - $length;}
+      100% {stroke-dashoffset: 0;}
+  }
+}

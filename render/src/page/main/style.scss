@@ -1,0 +1,14 @@
+.page-main-btns{
+    position: absolute;
+    bottom:0;
+    right: 1em;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    .btn{
+        width:10em;
+        height:2.2em;
+        margin-bottom: 0.3em;
+    }
+}
+

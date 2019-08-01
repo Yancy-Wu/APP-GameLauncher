@@ -1,0 +1,11 @@
+$NS: layout-matrix-;
+
+.#{$NS}root{
+  display: flex;
+  flex-direction: column;
+}
+
+.#{$NS}row{
+  display: flex;
+  flex-direction: row;
+}

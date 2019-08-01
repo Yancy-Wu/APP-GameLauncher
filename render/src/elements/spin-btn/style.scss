@@ -1,0 +1,35 @@
+$NS: element-spin-btn-;
+
+.#{$NS}root{
+  position: relative;
+  user-select: none;
+  cursor: pointer;
+  width: 2em;
+  height: 2em;
+}
+
+.#{$NS}spin-z{
+  transform: rotateZ(45deg);
+}
+
+.#{$NS}spin-y{
+  border: 1px rgba(200,200,200,0.6) solid;
+  box-shadow: 0 0 1em rgba(0,0,0,1);
+  transition: all ease-in-out 0.5s;
+  background-color: rgba(0,0,0,0.5);
+  transform: rotate3d(1,1,0,0deg);
+  &:hover{
+    transform: rotate3d(1,1,0,360deg);
+  }
+}
+
+.#{$NS}spin-text{
+  transform: rotateZ(-45deg);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8em;
+  color: rgba(200,200,200,0.8);
+}
+

@@ -1,0 +1,50 @@
+$NS: page-main-nogame-;
+
+.#{$NS}root{
+    position: absolute;
+    bottom:0;
+    right: 1em;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+}
+
+.#{$NS}dialog{
+    background-color: rgba(11, 32, 59, 0.9);
+    color: rgb(200, 200, 200);
+    width:20em;
+}
+
+.#{$NS}dialog-title{
+    font-size: 0.9em;
+    display: table;
+    height: 2em;
+    vertical-align: middle;
+}
+
+.#{$NS}dir-select{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items:center;
+    height: 2em;
+}
+
+.#{$NS}dir-input{
+    width: 15em;
+    height: 1.5em;
+}
+
+.#{$NS}dir-btn{
+    font-size: 0.8em;
+    color:rgb(14, 171, 182);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.#{$NS}btn{
+    width:10em;
+    height:2.3em;
+    margin-bottom: 0.5em;
+}
+

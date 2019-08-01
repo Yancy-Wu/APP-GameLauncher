@@ -1,0 +1,5 @@
+/render/node_modules
+/main/node_modules
+.vscode
+services/patch/__pycache__
+services/ftp-download/__pycache__
