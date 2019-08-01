@@ -1,5 +1,7 @@
+import crypto from 'crypto';
+import path from 'path';
+import fs from 'fs';
 import * as ConfigAPI from './config';
-import {crypto, fs, path} from './global';
 
 export function md5CheckFile(filePath: string, md5: string, callback: (res: boolean) => void): void {
     console.log(filePath);
@@ -22,7 +24,7 @@ export function md5CheckClient(md5FileListPath: string, callback: (res: boolean)
         md5CheckFile(path.join(base,rpath),md5, res => {
             if(!res){
                 callback(false);
-                stream.destory();
+                stream.destroy();
             }
         });
     });

@@ -1,0 +1,27 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@types/node": "12.6.6",
+    "electron": "^5.0.7",
+    "electron-store": "^4.0.0",
+    "ftp": "^0.3.10",
+    "typescript": "3.5.3"
+  },
+  "scripts": {
+    "start": "tsc && electron ."
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

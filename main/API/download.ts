@@ -1,8 +1,11 @@
+import os from 'os';
+import path from 'path';
+import fs from 'fs';
+import child_process from 'child_process';
+import electron from 'electron';
 import ClientMetaInfo from './meta';
 import CONFIG from '../config';
 import * as ConfigAPI from './config';
-import * as Electron from './electron';
-import {os, fs, path, child_process} from './global';
 
 export type DownloadInfo = {
     savedPath: string,
@@ -20,7 +23,7 @@ function download(url: string, savedPath: string, onDone?: () => void): Download
         done: false
     }
     let downloader = child_process.spawn('python', [
-        path.join(Electron.getAppPath(), '../server/ftp-download/main.py'),
+        path.join(electron.app.getAppPath(), '../server/ftp-download/main.py'),
         '-i', CONFIG.ftpProperty.host,
         '-r', url,
         '-l', savedPath]);

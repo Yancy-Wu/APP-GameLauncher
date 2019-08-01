@@ -1,6 +1,8 @@
+import ftp from 'ftp';
+import path from 'path';
+import fs from 'fs';
 import * as ConfigAPI from './config';
 import CONFIG from '../config';
-import {ftp, fs, path} from './global';
 
 function getFtpDirNames(callback: (dirNames: string[]) => void){
     let ftpClient = new ftp();

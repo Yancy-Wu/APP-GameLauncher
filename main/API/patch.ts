@@ -1,5 +1,6 @@
+import path from 'path';
+import child_process from 'child_process';
 import * as ConfigAPI from './config';
-import {child_process, path} from './global';
 
 //const ERROR_PARAM = 2
 //const PATCH_ERROR = 3
