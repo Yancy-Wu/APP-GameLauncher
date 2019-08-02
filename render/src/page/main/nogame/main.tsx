@@ -4,8 +4,8 @@ import Button from '../../../elements/button/main';
 import { DialogContext } from '../../../base/context';
 import Dialog from '../../../layout/dialog/main';
 import Input from '../../../elements/input/main';
-import * as ConfigAPI from '../../../API/config';
-import * as Electron from '../../../API/electron';
+import * as Info from '../../../API/info';
+import * as UI from '../../../API/ui';
 
 const NS = 'page-main-nogame-';
 
@@ -22,7 +22,7 @@ class InstallDialog extends React.Component<
 
     constructor(props: { installConfirm: (path: string | undefined) => void }) {
         super(props);
-        this.state = { path: Electron.getAppPath() };
+        this.state = { path: Info.getAppPath() };
     }
 
     render() {
@@ -36,7 +36,7 @@ class InstallDialog extends React.Component<
                     <div className={`${NS}dir-select`}>
                         <Input text={this.state.path} readonly className={`${NS}dir-input`} />
                         <span className={`${NS}dir-btn`} onClick={() => {
-                            Electron.openDirDialog((path) => { if (path) this.setState({ path: path }); });
+                            UI.openDirDialog((path) => { if (path) this.setState({ path: path }); });
                         }}>更改</span>
                     </div>
                 </Dialog>
@@ -51,7 +51,7 @@ export default class extends React.Component<
     private readonly installDialog = <InstallDialog installConfirm={(path) => {
         this.openDialog(undefined);
         if (!path) return;
-        ConfigAPI.set('installPath', path);
+        Info.setInstallPath(path);
         this.props.onReleaseControl();
     }} />;
 

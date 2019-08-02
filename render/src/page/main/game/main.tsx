@@ -6,16 +6,13 @@ import Button from '../../../elements/button/main';
 import ProgressBar from './progressbar/main';
 import Info from './info/main';
 import CONST from './constant';
-import ClientMetaInfo from '../../../API/meta';
-import * as VersionAPI from '../../../API/version';
-import * as DownloadAPI from '../../../API/download';
-import * as VerifyAPI from '../../../API/verify';
-import * as PatchAPI from '../../../API/patch';
-import * as ConfigAPI from '../../../API/config';
+import * as InfoAPI from '../../../API/info';
+import * as InstallAPI from '../../../API/install';
+import * as UpdateAPI from '../../../API/update';
 
 let displayInfo = {
     progress: 0,
-    title: '连接服务器中, 请等待...',
+    title: '',
     restTime: NaN,
     speedBS: 0,
     hasDownloadBytes: 0,
@@ -27,146 +24,66 @@ const NS = 'page-main-game-';
 
 export default class extends React.Component<
     { onReleaseControl: () => void },
-    {
-        op: 'ready' | 'install' | 'update' | 'check',
-        installSubState: 'preparing' | 'indexing' | 'connecting' | 'downloading' | 'verifying' | 'unzip',
-        updateSubState: 'preparing' | 'indexing' | 'connecting' | 'downloading' | 'verifying' | 'patching',
-    }>{
+    { op: 'ready' | 'install' | 'update' }>{
 
     constructor(props: { onReleaseControl: () => void }) {
         super(props);
         this.state = {
-            op: !ConfigAPI.get(ConfigAPI.SCHEMA.gamePath) ? 'install' : 'check',
-            installSubState: 'preparing', updateSubState: 'preparing'
+            op: !InfoAPI.getGamePath() ? 'install' : 'update'
         };
     }
 
-    private lastDownloadBytes = 0;
-    downloadInfo2DisplayInfo(dInfo: DownloadAPI.DownloadInfo, sizeBytes: number) {
-        displayInfo.hasDownloadBytes = dInfo.downloadedBytes;
-        displayInfo.totalDownloadBytes = sizeBytes;
-        displayInfo.progress = dInfo.downloadedBytes / sizeBytes;
-        displayInfo.speedBS = dInfo.downloadedBytes - this.lastDownloadBytes;
-        displayInfo.restTime = (sizeBytes - dInfo.downloadedBytes) / displayInfo.speedBS;
-        this.lastDownloadBytes = dInfo.downloadedBytes;
-    }
-
-    private installMetaInfo!: ClientMetaInfo;
-    private installVersion!: string;
-    private installDownloadInfo!: DownloadAPI.DownloadInfo;
     installLogic() {
-        switch (this.state.installSubState) {
-            case 'preparing':
-                VersionAPI.getNewestClientVersion(version => {
-                    this.installVersion = version;
-                    displayInfo.title = '获取元数据中, 请等待...';
-                    displayInfo.version = version;
-                    this.setState({ installSubState: 'indexing' });
-                });
-                break;
-            case 'indexing':
-                DownloadAPI.downloadMeta(this.installVersion, info => {
-                    console.log(info)
-                    this.installMetaInfo = info;
-                    displayInfo.title = '连接下载服务器中...';
-                    this.setState({ installSubState: 'connecting' });
-                });
-                break;
-            case 'connecting':
-                this.installDownloadInfo = DownloadAPI.downloadClient(this.installMetaInfo);
-                this.lastDownloadBytes = 0;
-                displayInfo.title = '正在下载客户端文件中...';
-                this.setState({ installSubState: 'downloading' });
-                break;
-            case 'downloading':
-                this.downloadInfo2DisplayInfo(this.installDownloadInfo, this.installMetaInfo.exeSizeBytes);
-                if (this.installDownloadInfo.done) {
-                    displayInfo.title = '下载完成，正在校验数据中...';
-                    displayInfo.progress = 0;
-                    this.setState({ installSubState: 'verifying' });
-                } else setTimeout(() => this.setState({ installSubState: 'downloading' }), 1000);
-                break;
-            case 'verifying':
-                VerifyAPI.md5CheckFile(this.installDownloadInfo.savedPath, this.installMetaInfo.exeMd5, res => {
-                    if (res) {
-                        displayInfo.title = '数据校验通过，解压文件中...';
-                        displayInfo.progress = 0;
-                        this.setState({ installSubState: 'unzip' });
-                    }
-                });
-                break;
-            case 'unzip':
-                PatchAPI.unzip(this.installDownloadInfo.savedPath, () => {
-                    ConfigAPI.set(ConfigAPI.SCHEMA.gamePath, this.installDownloadInfo.savedPath);
-                    ConfigAPI.set(ConfigAPI.SCHEMA.installPath, undefined);
+        InstallAPI.install(info => {
+            const installInfo = info as InstallAPI.InstallInfo;
+            displayInfo.title = info.msg;
+            switch (installInfo.what) {
+                case 'Indexing':
+                    const indexInfo = info as InstallAPI.IndexInfo;
+                    displayInfo.version = indexInfo.version;
+                    break;
+                case 'Downloading':
+                    const downloadInfo = info as InstallAPI.InstallDownloadInfo;
+                    displayInfo.hasDownloadBytes = downloadInfo.downloadedBytes;
+                    break;
+                case 'Done':
                     this.setState({ op: 'ready' });
-                })
-        }
-    }
-
-    private toUpdateVersions!: IterableIterator<string>;
-    checkLogic() {
-        VersionAPI.getToUpdateVersions(versions => {
-            this.toUpdateVersions = versions.values();
-            if (!versions) this.setState({ op: 'ready' });
-            else {
-                displayInfo.title = '获取元数据中, 请等待...';
-                this.setState({ op: 'update', updateSubState: 'indexing' });
             }
         });
     }
 
-    private updateMetaInfo!: ClientMetaInfo;
-    private updateDownloadInfo!: DownloadAPI.DownloadInfo;
+    private newestClientVersion!: string;
     updateLogic() {
-        switch (this.state.updateSubState) {
-            case 'indexing':
-                const iter = this.toUpdateVersions.next();
-                if (iter.done) this.setState({ op: 'ready' });
-                else {
-                    DownloadAPI.downloadMeta(iter.value, info => {
-                        displayInfo.title = '连接到下载服务器中...';
-                        this.updateMetaInfo = info;
-                        this.setState({ updateSubState: 'connecting' });
-                    });
-                }
-                break;
-            case 'connecting':
-                this.updateDownloadInfo = DownloadAPI.downloadPatch(this.updateMetaInfo);
-                this.lastDownloadBytes = 0;
-                displayInfo.title = '正在下载Patch文件中...';
-                this.setState({ updateSubState: 'downloading' });
-                break;
-            case 'downloading':
-                this.downloadInfo2DisplayInfo(this.updateDownloadInfo, this.updateMetaInfo.patchSizeBytes);
-                if (this.updateDownloadInfo.done) {
-                    displayInfo.title = '下载完成，正在校验数据中...';
-                    displayInfo.progress = 0;
-                    this.setState({ updateSubState: 'verifying' });
-                } else setTimeout(() => {
-                    this.setState({ updateSubState: 'downloading' });
-                }, 1000);
-                break;
-            case 'verifying':
-                VerifyAPI.md5CheckFile(this.updateDownloadInfo.savedPath, this.updateMetaInfo.exeMd5, res => {
-                    if (res) {
-                        displayInfo.title = '数据校验完成，开始打包Patch...';
-                        this.setState({ updateSubState: 'patching' });
+        UpdateAPI.update(info => {
+            const updateInfo = info as UpdateAPI.UpdateInfo;
+            displayInfo.title = info.msg;
+            switch (updateInfo.what) {
+                case 'None':
+                    this.setState({ op: 'ready' });
+                    break;
+                case 'Overall':
+                    const overallInfo = info as UpdateAPI.OverallInfo;
+                    this.newestClientVersion = overallInfo.newestVersion;
+                    break;
+                case 'Indexing':
+                    const indexInfo = info as UpdateAPI.IndexInfo;
+                    displayInfo.version = indexInfo.version;
+                    break;
+                case 'Downloading':
+                    const downloadInfo = info as UpdateAPI.UpdateDownloadInfo;
+                    displayInfo.hasDownloadBytes = downloadInfo.downloadedBytes;
+                    displayInfo.version = downloadInfo.version;
+                    break;
+                case 'Done':
+                    if (displayInfo.version == this.newestClientVersion) {
+                        this.setState({ op: 'ready' });
                     }
-                });
-                break;
-            case 'patching':
-                PatchAPI.patch(this.updateDownloadInfo.savedPath, () => {
-                    displayInfo.title = '获取元数据中, 请等待...';
-                    this.setState({ updateSubState: 'indexing' });
-                });
-                break;
-        }
+            }
+        });
     }
 
     logic() {
         if (this.state.op === 'install') this.installLogic();
-        if (this.state.op === 'check') this.checkLogic();
         if (this.state.op === 'update') this.updateLogic();
     }
 

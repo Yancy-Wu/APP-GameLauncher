@@ -20,7 +20,6 @@ ipcMain.on('update', (event: Event) => {
             event.sender.send('update.reply', {
                 type: 'info',
                 what: 'Connecting',
-                version: version,
                 msg: '正在连接服务器, 请等待...'
             });
             let info = downloadPatch(meta);
@@ -28,7 +27,6 @@ ipcMain.on('update', (event: Event) => {
                 event.sender.send('update.reply', {
                     type: 'info',
                     what: 'Downloading',
-                    version: version,
                     msg: '正在下载Patch中...',
                     downloadedBytes: info.downloadedBytes
                 });
@@ -37,7 +35,6 @@ ipcMain.on('update', (event: Event) => {
                     event.sender.send('update.reply', {
                         type: 'info',
                         what: 'Verifying',
-                        version: version,
                         msg: '校验Patch中...'
                     });
                     checkPatch(meta, res => {
@@ -45,14 +42,12 @@ ipcMain.on('update', (event: Event) => {
                             event.sender.send('update.reply', {
                                 type: 'info',
                                 what: 'Patching',
-                                version: version,
                                 msg: '正在打包Patch中...'
                             });
                             patchClient(meta, () => {
                                 event.sender.send('update.reply', {
                                     type: 'info',
                                     what: 'Done',
-                                    version: version,
                                 });
                                 patchVersion(versions);
                             })
@@ -70,6 +65,11 @@ ipcMain.on('update', (event: Event) => {
             });
             return;
         }
+        event.sender.send('update.reply', {
+            type: 'info',
+            what: 'Overall',
+            newestVersion: versions[versions.length - 1]
+        });
         patchVersion(versions.values());
     })
 })

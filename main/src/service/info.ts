@@ -1,7 +1,11 @@
 import { getCurrentVersion } from '../controller/version';
-import { ipcMain, Event } from 'electron';
+import { ipcMain, Event, app } from 'electron';
 import CONFIG from '../config';
 import * as Store from '../base/store';
+
+ipcMain.on('info.getAppPath', (event: Event) => {
+    event.returnValue = app.getAppPath();
+})
 
 ipcMain.on('info.getCurrentVersion', (event: Event) => {
     event.returnValue = getCurrentVersion();

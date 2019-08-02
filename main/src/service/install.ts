@@ -9,6 +9,7 @@ ipcMain.on('install', (event: Event) => {
         event.sender.send('install.reply', {
             type: 'info',
             what: 'Indexing',
+            version: version,
             msg: '正在获取元数据, 请等待...'
         });
         downloadMeta(version, meta => {
@@ -42,7 +43,8 @@ ipcMain.on('install', (event: Event) => {
                             unzipClient(meta, () => {
                                 event.sender.send('install.reply', {
                                     what: 'Done',
-                                    type: 'info'
+                                    type: 'info',
+                                    msg: '完成'
                                 });
                             })
                         }
