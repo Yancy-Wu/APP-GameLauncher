@@ -1,19 +1,8 @@
 import ftp from 'ftp';
 import path from 'path';
 import fs from 'fs';
-import * as ConfigAPI from './config';
+import * as ConfigAPI from './store';
 import CONFIG from '../config';
-
-function getFtpDirNames(callback: (dirNames: string[]) => void){
-    let ftpClient = new ftp();
-    ftpClient.on('ready', () => {
-        ftpClient.list('/', (err: any, list : any[]) => {
-            if (err) throw err;
-            callback(list.map(v => v.name));
-        });
-    });
-    ftpClient.connect(CONFIG.ftpProperty);
-}
 
 export function getCurrentVersion(callback: (version: string | undefined) => void) {
     const gamePath = ConfigAPI.get(ConfigAPI.SCHEMA.gamePath);

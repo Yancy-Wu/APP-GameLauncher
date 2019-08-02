@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import path from 'path';
 import fs from 'fs';
-import * as ConfigAPI from './config';
+import * as ConfigAPI from './store';
 
 export function md5CheckFile(filePath: string, md5: string, callback: (res: boolean) => void): void {
     console.log(filePath);
