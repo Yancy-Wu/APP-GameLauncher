@@ -2,6 +2,18 @@
 # yarn lockfile v1
 
 
+"@types/ftp@^0.3.29":
+  version "0.3.29"
+  resolved "https://registry.yarnpkg.com/@types/ftp/-/ftp-0.3.29.tgz#661238587b9ec653c71256bd2138545be7ba7393"
+  integrity sha1-ZhI4WHuexlPHEla9IThUW+e6c5M=
+  dependencies:
+    "@types/node" "*"
+
+"@types/node@*":
+  version "12.6.9"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.6.9.tgz#ffeee23afdc19ab16e979338e7b536fdebbbaeaf"
+  integrity sha512-+YB9FtyxXGyD54p8rXwWaN1EWEyar5L58GlGWgtH2I9rGmLGBQcw63+0jw+ujqVavNuO47S1ByAjm9zdHMnskw==
+
 "@types/node@12.6.6":
   version "12.6.6"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.6.6.tgz#831587377c35bb28fa33b6fe5f849a26a3f4a412"

@@ -1,6 +1,6 @@
 import MetaInfo from './meta';
-import { DownloadInfo, download } from '../base/download';
 import * as Path from './filepath';
+import { DownloadInfo, download } from '../base/download';
 
 export function downloadMd5File(meta: MetaInfo): DownloadInfo {
     const remotePath = meta.version + '/' + meta.md5ListFileUrl;

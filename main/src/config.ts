@@ -3,9 +3,8 @@ export default {
         host: 'localhost',
         user: '',
         password: '',
-        port: '21'
     },
-    schema:{
+    schema: {
         installPath: 'installPath',
         gamePath: 'gamePath',
     }

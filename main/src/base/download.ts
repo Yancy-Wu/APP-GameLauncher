@@ -1,6 +1,6 @@
 import child_process from 'child_process';
-import electron from 'electron';
 import path from 'path';
+import { app } from 'electron';
 import CONFIG from '../config';
 
 const ERROR_UNKNOW = 1
@@ -18,7 +18,7 @@ export function download(url: string, savedPath: string, onDone?: () => void): D
         done: false
     }
     let downloader = child_process.spawn('python', [
-        path.join(electron.app.getAppPath(), '../server/ftp-download/main.py'),
+        path.join(app.getAppPath(), '../server/ftp-download/main.py'),
         '-i', CONFIG.ftpProperty.host,
         '-r', url,
         '-l', savedPath]);
