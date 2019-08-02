@@ -1,28 +1,26 @@
-import crypto from 'crypto';
 import path from 'path';
 import fs from 'fs';
-import * as ConfigAPI from './store';
+import CONFIG from '../config';
+import MetaInfo from './meta';
+import * as Path from './filepath';
+import * as Store from '../base/store';
+import * as Utils from '../base/utils';
 
-export function md5CheckFile(filePath: string, md5: string, callback: (res: boolean) => void): void {
-    console.log(filePath);
-    let md5sum = crypto.createHash('md5');
-    let stream = fs.createReadStream(filePath);
-    stream.on('data', (chunk: any) => {
-        md5sum.update(chunk);
-    });
-    stream.on('end', () => {
-        let str = md5sum.digest('hex').toUpperCase();
-        callback(str == md5.toUpperCase());
-    });
+export function checkPatch(meta: MetaInfo, callback: (res: boolean) => void): void {
+    Utils.md5Check(Path.patchSavedPath(meta), meta.patchMd5, callback);
 }
 
-export function md5CheckClient(md5FileListPath: string, callback: (res: boolean) => void): void {
-    let stream = fs.createReadStream(md5FileListPath);
-    let base = ConfigAPI.get(ConfigAPI.SCHEMA.gamePath);
-    stream.on('line', (line : string) => {
+export function unzipClient(meta: MetaInfo, callback: () => void) {
+    Utils.unzip(Path.clientSavedPath(meta), callback);
+}
+
+export function checkClient(meta: MetaInfo, callback: (res: boolean) => void): void {
+    let stream = fs.createReadStream(Path.md5SavedPath(meta));
+    let base = Store.get(CONFIG.schema.gamePath);
+    stream.on('line', (line: string) => {
         let [rpath, md5] = line.split('\t');
-        md5CheckFile(path.join(base,rpath),md5, res => {
-            if(!res){
+        Utils.md5Check(path.join(base, rpath), md5, res => {
+            if (!res) {
                 callback(false);
                 stream.destroy();
             }

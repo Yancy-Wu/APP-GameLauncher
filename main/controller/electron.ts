@@ -8,7 +8,3 @@ export function openDirDialog(callback: (path: string | undefined) => void) {
         properties: ['openDirectory']
     }, (path: string[]) => callback(path ? path[0] : undefined));
 }
-
-export function getAppPath(): string {
-    return electron.app.getAppPath();
-}
