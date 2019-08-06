@@ -26,7 +26,7 @@ import json
 ERROR_LOCAL_FILE_EXIST = 2
 ERROR_CONNECT_FAILED = 3
 
-SLEEP_TIME = 1
+SLEEP_TIME = 0.5
 TMP_FILE_SUFFIX = '.tmp'
 
 
@@ -36,16 +36,25 @@ def print_progress(file, size):
 
     while True:
         downloaded_size = file.tell()
-        done = 1 if size == downloaded_size else 0
         out = {
             "type": "info",
             "downloadedBytes": downloaded_size,
-            "done": done}
+            "done": 0}
         print(json.dumps(out))
         sys.stdout.flush()
-        if done == 1:
+        if size == downloaded_size:
             break
         time.sleep(SLEEP_TIME)
+
+
+def print_done(size):
+    """ print done event """
+    out = {
+        "type": "info",
+        "downloadedBytes": size,
+        "done": 1}
+    print(json.dumps(out))
+    sys.stdout.flush()
 
 
 def main():
@@ -90,6 +99,7 @@ def main():
     ftp.close()
     flocal.close()
     shutil.move(local_file + TMP_FILE_SUFFIX, local_file)
+    print_done(size)
 
 
 if __name__ == "__main__":

@@ -33,4 +33,7 @@ require("./service/info");
 require("./service/install");
 require("./service/ui");
 require("./service/update");
+//test
+var ftp_1 = require("./base/ftp");
+ftp_1.getDirs(function () { console.log('ssss'); });
 //# sourceMappingURL=main.js.map

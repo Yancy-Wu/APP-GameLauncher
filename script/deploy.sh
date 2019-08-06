@@ -13,7 +13,7 @@ exePath=$4
 # old_dir new_dir version must not null.
 if [ ! $old_dir ] || [ ! $new_dir ] || [ ! $version ] || [ ! $exePath ]
 then
-    echo 'usage: deploy [NEW-VERSION-DIR] [OLD-VERSION-DIR] [VERSION] [EXE-PATH]'
+    echo 'usage: deploy [OLD-VERSION-DIR] [NEW-VERSION-DIR] [VERSION] [EXE-PATH]'
     exit 0
 fi
 
@@ -37,7 +37,7 @@ python3 -m pip install bsdiff4
 
 # generating patch file, assuming patch python file is under ../server
 echo -e '\e[32m ***** GENERATING PATCH FILE ***** \e[0m'
-cd ../server
+cd ../services
 python3 -m patch --diff -s $old_dir -t $new_dir -f "$saved_dir/patch.json"
 
 # generating client zip file.

@@ -16,7 +16,7 @@ function download(url, savedPath, onDone) {
         done: false
     };
     var downloader = child_process_1["default"].spawn('python', [
-        path_1["default"].join(electron_1.app.getAppPath(), '../server/ftp-download/main.py'),
+        path_1["default"].join(electron_1.app.getAppPath(), config_1["default"].downloadBinPath),
         '-i', config_1["default"].ftpProperty.host,
         '-r', url,
         '-l', savedPath

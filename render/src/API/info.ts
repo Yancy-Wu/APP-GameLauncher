@@ -1,10 +1,10 @@
-let ipcRender = (window as any).require('electron');
+let ipcRender = (window as any).require('electron').ipcRenderer;
 
 export function getAppPath(): string {
     return ipcRender.sendSync('info.getAppPath');
 }
 
-export function getCurrentVersion(): string {
+export function getCurrentVersion(): string | undefined {
     return ipcRender.sendSync('info.getCurrentVersion');
 }
 

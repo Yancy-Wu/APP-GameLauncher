@@ -1,6 +1,6 @@
 import ErrorInfo from './error';
 
-let ipcRender = (window as any).require('electron');
+let ipcRender = (window as any).require('electron').ipcRenderer;
 
 export interface UpdateInfo {
     type: 'info',
@@ -27,7 +27,7 @@ export interface UpdateDownloadInfo extends UpdateInfo{
 type Info = UpdateInfo | IndexInfo | UpdateDownloadInfo | ErrorInfo;
 export function update(onInfo: (info: Info) => void) {
     ipcRender.send('update');
-    ipcRender.on('update-reply', (_: any, args: any) => {
+    ipcRender.on('update.reply', (_: any, args: any) => {
         onInfo(args);
     })
 }

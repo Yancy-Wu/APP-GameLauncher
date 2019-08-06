@@ -1,6 +1,6 @@
 import ErrorInfo from './error';
 
-let ipcRender = (window as any).require('electron');
+let ipcRender = (window as any).require('electron').ipcRenderer;
 
 export interface InstallInfo {
     type: 'info',
@@ -18,9 +18,9 @@ export interface InstallDownloadInfo extends InstallInfo {
 
 type Info = InstallInfo | IndexInfo | InstallDownloadInfo | ErrorInfo;
 
-export function install(onInfo: (info: InstallInfo | InstallDownloadInfo | ErrorInfo) => void) {
+export function install(onInfo: (info: Info) => void) {
     ipcRender.send('install');
-    ipcRender.on('install-reply', (_: any, args: any) => {
+    ipcRender.on('install.reply', (_: any, args: any) => {
         onInfo(args);
     })
 }

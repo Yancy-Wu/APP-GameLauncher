@@ -1,7 +1,7 @@
-import { getCurrentVersion } from '../controller/version';
-import { ipcMain, Event, app } from 'electron';
 import CONFIG from '../config';
-import * as Store from '../base/store';
+import { getCurrentVersion } from '../modules/version';
+import { ipcMain, Event, app } from 'electron';
+import * as Store from '../func-int/store';
 
 ipcMain.on('info.getAppPath', (event: Event) => {
     event.returnValue = app.getAppPath();
@@ -12,7 +12,7 @@ ipcMain.on('info.getCurrentVersion', (event: Event) => {
 })
 
 ipcMain.on('info.getInstallPath', (event: Event) => {
-    event.returnValue = Store.get(CONFIG.schema.gamePath);
+    event.returnValue = Store.get(CONFIG.schema.installPath);
 })
 
 ipcMain.on('info.setInstallPath', (event: Event, path: string) => {

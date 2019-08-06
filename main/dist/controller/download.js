@@ -7,8 +7,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 exports.__esModule = true;
-var download_1 = require("../base/download");
 var Path = __importStar(require("./filepath"));
+var download_1 = require("../base/download");
 function downloadMd5File(meta) {
     var remotePath = meta.version + '/' + meta.md5ListFileUrl;
     var localPath = Path.md5SavedPath(meta);

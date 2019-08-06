@@ -5,16 +5,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 var ftp_1 = __importDefault(require("ftp"));
 var config_1 = __importDefault(require("../config"));
-var ERROR_UNKNOW = 1;
-var ERROR_CONNECT_FAILED = 2;
+var exceptions_1 = __importDefault(require("../exceptions"));
 function getDirs(callback) {
     var ftpClient = new ftp_1["default"]();
     ftpClient.on('ready', function () {
-        ftpClient.list('/', function (err, list) {
-            if (err)
-                throw err;
+        ftpClient.list('/', function (_, list) {
             callback(list.map(function (v) { return v.name; }));
+            ftpClient.end();
         });
+    });
+    ftpClient.on('error', function (_) {
+        ftpClient.destroy();
+        throw new Error(exceptions_1["default"].ftpException.connect_failed);
     });
     ftpClient.connect(config_1["default"].ftpProperty);
 }

@@ -13,18 +13,21 @@ var ERROR_NODISK = 3;
 var ERROR_NOMEM = 4;
 function unzip(filePath, callback) {
     var unzipper = child_process_1["default"].spawn('../external/7z', [
-        'x', '-y', filePath,
+        'x', '-y', '-t7z', filePath,
         '-o' + path_1["default"].dirname(filePath)
     ]);
     unzipper.on('close', function (code) {
         switch (code) {
-            case 0: callback();
+            case 0:
+                callback();
+                break;
             default: throw new Error('UnzipFailed');
         }
     });
 }
 exports.unzip = unzip;
 function md5Check(filePath, md5, callback) {
+    fs_1["default"].exists(filePath, function (res) { return console.log(res); });
     var md5sum = crypto_1["default"].createHash('md5');
     var stream = fs_1["default"].createReadStream(filePath);
     stream.on('data', function (chunk) {

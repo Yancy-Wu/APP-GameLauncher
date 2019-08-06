@@ -8,7 +8,10 @@ function init() {
     mainWindow = new electron_1.BrowserWindow({
         width: 800,
         height: 600,
-        frame: false
+        frame: false,
+        webPreferences: {
+            nodeIntegration: true
+        }
     });
     // and load the index.html of the app.
     //mainWindow.loadFile('index.html')

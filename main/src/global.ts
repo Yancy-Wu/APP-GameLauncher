@@ -10,6 +10,9 @@ export function init() {
     width: 800,
     height: 600,
     frame: false,
+    webPreferences: {
+      nodeIntegration: true,
+    }
   })
 
   // and load the index.html of the app.

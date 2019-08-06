@@ -1,8 +1,8 @@
 import path from 'path';
 import fs from 'fs';
-import { getDirs } from '../base/ftp';
 import CONFIG from '../config';
-import * as Store from '../base/store';
+import { getDirs } from '../func-int/ftp';
+import * as Store from '../func-int/store';
 
 export function getCurrentVersion(): string | undefined {
     const gamePath = Store.get(CONFIG.schema.gamePath);
@@ -16,7 +16,7 @@ export function getToUpdateVersions(callback: (versions: string[]) => void) {
     const version = getCurrentVersion();
     getDirs(dirNames => {
         dirNames.sort();
-        callback(dirNames.slice(dirNames.indexOf(version!)));
+        callback(dirNames.slice(dirNames.indexOf(version!) + 1));
     })
 }
 

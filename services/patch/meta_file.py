@@ -117,7 +117,8 @@ class MetaFile:
         self.rpath = rpath
 
     def copy(self, rpath):
-        """ copy file to destination(relative). it will override exists. """
+        """ copy file to destination(relative). it will override exists.
+            return new meta_file object """
 
         destination = os.path.join(self.root, rpath)
         if os.path.exists(destination):
@@ -126,6 +127,7 @@ class MetaFile:
         if not os.path.exists(tdir):
             os.mkdir(tdir)
         shutil.copy(self.path(), destination)
+        return MetaFile(self.root, rpath)
 
     def delete(self):
         """ delete current file and destory self. """

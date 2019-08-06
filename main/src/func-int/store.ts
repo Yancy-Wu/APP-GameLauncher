@@ -1,8 +1,5 @@
 import Store from 'electron-store';
 
-const ERROR_UNKNOW = 1;
-const ERROR_PERMISSION_DENY = 2;
-
 const store = new Store();
 
 export function get(key: string): any {

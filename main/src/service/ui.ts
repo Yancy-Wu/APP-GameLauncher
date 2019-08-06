@@ -1,4 +1,4 @@
-import { openDirDialog } from '../controller/electron';
+import { openDirDialog } from '../modules/electron';
 import { ipcMain } from 'electron';
 
 ipcMain.on('ui.openDirDialog', (event: Electron.Event) => {

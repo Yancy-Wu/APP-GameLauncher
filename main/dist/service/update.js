@@ -1,10 +1,10 @@
 "use strict";
 exports.__esModule = true;
-var meta_1 = require("../controller/meta");
-var download_1 = require("../controller/download");
-var verify_1 = require("../controller/verify");
-var version_1 = require("../controller/version");
-var patch_1 = require("../controller/patch");
+var meta_1 = require("../modules/meta");
+var download_1 = require("../modules/download");
+var verify_1 = require("../modules/verify");
+var version_1 = require("../modules/version");
+var patch_1 = require("../modules/patch");
 var electron_1 = require("electron");
 electron_1.ipcMain.on('update', function (event) {
     var patchVersion = function (versions) {
@@ -22,7 +22,6 @@ electron_1.ipcMain.on('update', function (event) {
             event.sender.send('update.reply', {
                 type: 'info',
                 what: 'Connecting',
-                version: version,
                 msg: '正在连接服务器, 请等待...'
             });
             var info = download_1.downloadPatch(meta);
@@ -30,31 +29,28 @@ electron_1.ipcMain.on('update', function (event) {
                 event.sender.send('update.reply', {
                     type: 'info',
                     what: 'Downloading',
-                    version: version,
                     msg: '正在下载Patch中...',
-                    downloadedBytes: info.downloadedBytes
+                    downloadedBytes: info.progress
                 });
                 if (info.done) {
                     clearInterval(id);
                     event.sender.send('update.reply', {
                         type: 'info',
                         what: 'Verifying',
-                        version: version,
                         msg: '校验Patch中...'
                     });
                     verify_1.checkPatch(meta, function (res) {
+                        console.log(res);
                         if (res) {
                             event.sender.send('update.reply', {
                                 type: 'info',
                                 what: 'Patching',
-                                version: version,
                                 msg: '正在打包Patch中...'
                             });
                             patch_1.patchClient(meta, function () {
                                 event.sender.send('update.reply', {
                                     type: 'info',
-                                    what: 'Done',
-                                    version: version
+                                    what: 'Done'
                                 });
                                 patchVersion(versions);
                             });
@@ -72,6 +68,11 @@ electron_1.ipcMain.on('update', function (event) {
             });
             return;
         }
+        event.sender.send('update.reply', {
+            type: 'info',
+            what: 'Overall',
+            newestVersion: versions[versions.length - 1]
+        });
         patchVersion(versions.values());
     });
 });

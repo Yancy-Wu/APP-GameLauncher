@@ -13,6 +13,7 @@ def dir_to_dict(dir_name):
     for root, _, files in os.walk('.'):
         for name in files:
             rpath = os.path.join(root, name)
+            rpath = rpath.replace('\\', '/')
             res.update({rpath: MetaFile(dir_name, rpath)})
     os.chdir(saved_dir)
     return res
@@ -152,7 +153,7 @@ class Patch:
             if record['operation'] == 'moved':
                 spath = record['from']
                 mfile = self.file_dict[spath]
-                mfile.copy(path + '.copying')
+                mfile = mfile.copy(path + '.copying')
                 mfile.move(path + '.done')
 
             # modifing existed file.
