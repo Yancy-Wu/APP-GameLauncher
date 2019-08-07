@@ -12,9 +12,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
 exports.__esModule = true;
 var path_1 = __importDefault(require("path"));
 var fs_1 = __importDefault(require("fs"));
-var ftp_1 = require("../base/ftp");
 var config_1 = __importDefault(require("../config"));
-var Store = __importStar(require("../base/store"));
+var ftp_1 = require("../func-int/ftp");
+var Store = __importStar(require("../func-int/store"));
 function getCurrentVersion() {
     var gamePath = Store.get(config_1["default"].schema.gamePath);
     var data = undefined;

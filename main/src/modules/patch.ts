@@ -5,6 +5,6 @@ import { patchSavedPath } from './filepath';
 import * as Store from '../func-int/store';
 import { Progress } from '../types';
 
-export function patchClient(meta: MetaInfo, callback?: () => void): Progress {
-    return patch(Store.get(CONFIG.schema.gamePath), patchSavedPath(meta), callback);
+export async function patchClient(meta: MetaInfo, progress: Progress) {
+    await patch(Store.get(CONFIG.schema.gamePath), patchSavedPath(meta), progress);
 }

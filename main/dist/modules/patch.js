@@ -10,12 +10,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 exports.__esModule = true;
-var filepath_1 = require("./filepath");
-var patch_1 = require("../ext/patch");
+var patch_1 = __importDefault(require("../func-ext/patch"));
 var config_1 = __importDefault(require("../config"));
-var Store = __importStar(require("../base/store"));
+var filepath_1 = require("./filepath");
+var Store = __importStar(require("../func-int/store"));
 function patchClient(meta, callback) {
-    patch_1.patch(Store.get(config_1["default"].schema.gamePath), filepath_1.patchSavedPath(meta), callback);
+    return patch_1["default"](Store.get(config_1["default"].schema.gamePath), filepath_1.patchSavedPath(meta), callback);
 }
 exports.patchClient = patchClient;
 //# sourceMappingURL=patch.js.map

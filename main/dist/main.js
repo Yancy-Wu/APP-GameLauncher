@@ -6,6 +6,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
 // Modules to control application life and create native browser window
 var electron_1 = require("electron");
@@ -30,10 +33,11 @@ electron_1.app.on('activate', function () {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 require("./service/info");
-require("./service/install");
+require("./service/major");
 require("./service/ui");
-require("./service/update");
-//test
-var ftp_1 = require("./base/ftp");
-ftp_1.getDirs(function () { console.log('ssss'); });
+var retry_1 = __importDefault(require("./exceptions/retry"));
+retry_1["default"](function () {
+    console.log('fuck');
+    setTimeout(function () { throw new Error('hello'); }, 1000);
+}, ['hello'], function (_, num) { return true; }, function () { });
 //# sourceMappingURL=main.js.map

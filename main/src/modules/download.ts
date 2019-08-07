@@ -5,33 +5,32 @@ import CONFIG from '../config';
 import { Progress } from '../types';
 import * as Path from './filepath';
 
-export function downloadMd5File(meta: MetaInfo): Progress {
+export async function downloadMd5File(meta: MetaInfo, progress: Progress) {
     const remotePath = meta.version + '/' + meta.md5ListFileUrl;
     const localPath = Path.md5SavedPath(meta);
-    return downloader(remotePath, localPath);
+    await downloader(remotePath, localPath, progress);
 }
 
-export function downloadClient(meta: MetaInfo): Progress {
+export async function downloadClient(meta: MetaInfo, progress: Progress) {
     const remotePath = meta.version + '/' + meta.exeFileUrl;
     const localPath = Path.clientSavedPath(meta);
-    return downloader(remotePath, localPath);
+    await downloader(remotePath, localPath, progress);
 }
 
-export function downloadPatch(meta: MetaInfo): Progress {
+export async function downloadPatch(meta: MetaInfo, progress: Progress) {
     const remotePath = meta.version + '/' + meta.patchFileUrl;
     const localPath = Path.patchSavedPath(meta);
-    return downloader(remotePath, localPath);
+    await downloader(remotePath, localPath, progress);
 }
 
 let version2MetaInfo = new Map();
-export function downloadMeta(version: string, callback: (meta: MetaInfo) => void) {
+export async function downloadMeta(version: string) {
     const saved = version2MetaInfo.get(version);
-    if (saved) callback(saved);
+    if (saved) return saved;
     const remotePath = version + '/' + CONFIG.remoteMetaPath;
     const localPath = Path.metaSavedPath(version);
-    downloader(remotePath, localPath, () => {
-        let meta = JSON.parse(fs.readFileSync(localPath).toString());
-        callback(meta);
-        version2MetaInfo.set(version, meta);
-    });
+    await downloader(remotePath, localPath, {progress: 0, done: false});
+    let meta = JSON.parse(fs.readFileSync(localPath).toString());
+    version2MetaInfo.set(version, meta);
+    return meta;
 }

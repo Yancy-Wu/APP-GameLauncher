@@ -10,10 +10,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 exports.__esModule = true;
+var config_1 = __importDefault(require("../config"));
 var version_1 = require("../modules/version");
 var electron_1 = require("electron");
-var config_1 = __importDefault(require("../config"));
-var Store = __importStar(require("../base/store"));
+var Store = __importStar(require("../func-int/store"));
 electron_1.ipcMain.on('info.getAppPath', function (event) {
     event.returnValue = electron_1.app.getAppPath();
 });

@@ -13,7 +13,7 @@ exports.__esModule = true;
 var path_1 = __importDefault(require("path"));
 var os_1 = __importDefault(require("os"));
 var config_1 = __importDefault(require("../config"));
-var Store = __importStar(require("../base/store"));
+var Store = __importStar(require("../func-int/store"));
 function md5SavedPath(meta) {
     return path_1["default"].join(Store.get(config_1["default"].schema.gamePath), 'md5', meta.version);
 }

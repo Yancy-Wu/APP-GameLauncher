@@ -1,5 +1,6 @@
 import { Progress } from '../types';
 import { WebContents } from 'electron';
+import { clearMeta } from '../modules/clear';
 
 export interface BaseInfo {
     type: string,
@@ -9,6 +10,10 @@ export interface BaseInfo {
 
 export interface ErrorInfo extends BaseInfo {
     type: 'error'
+}
+
+export interface WarningInfo extends BaseInfo {
+    type: 'warning'
 }
 
 export interface SummaryInfo extends BaseInfo {
@@ -37,31 +42,42 @@ export abstract class Pipeline {
         this.progressTotal = 0;
         this.sender = sender;
         this.replyEvent = `${name}.reply`;
-        this.logic('Connecting');
+        clearMeta().then(this.loop.bind(this));
     }
 
     protected send = (val: any) => this.sender.send(this.replyEvent, val);
     protected done = () => this.send({ type: 'done' });
-    abstract connecting(done: () => void): void;
-    abstract indexing(done: () => void): void;
-    abstract logic(action: any): void;
+    abstract async connecting(): Promise<void>;
+    abstract async indexing(): Promise<void>;
+    abstract async logic(action: string | undefined) : Promise<[boolean, string]>;
 
-    public progressDisplay(what: string, msg: string, weight: number, progress: Progress, done: () => void) {
-        this.timeId = setInterval(() => {
-            this.progressTotal += progress.progress * weight;
-            const REPLY: ProgressInfo = {
-                type: 'info',
-                what: what,
-                msg: msg,
-                done: progress.done,
-                progressCur: progress.progress,
-                progressTotal: this.progressTotal,
-            }
-            this.send(REPLY);
-            if (progress.done) {
-                clearInterval(this.timeId);
-                done();
-            }
-        }, 500);
+    public async loop(){
+        let action: string = undefined;
+        let res: boolean = true;
+        while(res){
+            [res, action] = await this.logic(action);
+        }
+        this.done();
+    }
+
+    public progressDisplay(what: string, msg: string, weight: number, progress: Progress) :Promise<void>{
+        return new Promise(resolve => {
+            this.timeId = setInterval(() => {
+                this.progressTotal += progress.progress * weight;
+                const REPLY: ProgressInfo = {
+                    type: 'info',
+                    what: what,
+                    msg: msg,
+                    done: progress.done,
+                    progressCur: progress.progress,
+                    progressTotal: this.progressTotal,
+                }
+                this.send(REPLY);
+                if (progress.done) {
+                    clearInterval(this.timeId);
+                    resolve();
+                }
+            }, 500);
+        });
     }
 }

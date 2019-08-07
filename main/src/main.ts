@@ -25,3 +25,9 @@ app.on('activate', function () {
 import './service/info'
 import './service/major'
 import './service/ui'
+
+import retry from './exceptions/retry';
+retry(() => {
+  console.log('fuck');
+  setTimeout(() => {throw new Error('hello')}, 1000);
+},['hello'],(_, num) => true, () => {});

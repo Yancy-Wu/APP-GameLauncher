@@ -12,17 +12,15 @@ export function getCurrentVersion(): string | undefined {
     return data;
 }
 
-export function getToUpdateVersions(callback: (versions: string[]) => void) {
+export async function getToUpdateVersions() {
     const version = getCurrentVersion();
-    getDirs(dirNames => {
-        dirNames.sort();
-        callback(dirNames.slice(dirNames.indexOf(version!) + 1));
-    })
+    let dirNames = await getDirs();
+    dirNames.sort();
+    return dirNames.slice(dirNames.indexOf(version!) + 1);
 }
 
-export function getNewestClientVersion(callback: (version: string) => void) {
-    getDirs(dirNames => {
-        dirNames.sort();
-        callback(dirNames[dirNames.length - 1]);
-    })
+export async function getNewestClientVersion() {
+    let dirNames = await getDirs();
+    dirNames.sort();
+    return dirNames[dirNames.length - 1];
 }
