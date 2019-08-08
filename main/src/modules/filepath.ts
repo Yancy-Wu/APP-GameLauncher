@@ -1,7 +1,7 @@
 import path from 'path';
 import os from 'os';
-import MetaInfo from './meta';
-import CONFIG from '../config';
+import MetaInfo from '../base/meta';
+import CONFIG from '../base/config';
 import * as Store from '../func-int/store';
 
 export function md5SavedPath(meta: MetaInfo) {

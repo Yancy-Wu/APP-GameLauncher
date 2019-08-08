@@ -11,5 +11,6 @@ export default {
     downloaderBinPath: '../../services/ftp-download/main.py',
     patchBinCwd: '../../services/',
     unzipBinPath: '../external/7z',
-    remoteMetaPath: 'meta.json'
+    remoteMetaPath: 'meta.json',
+    remoteDataPath: '/'
 }

@@ -1,8 +1,9 @@
 import os from 'os';
 import fs from 'fs';
 import EXCEPTIONS from '../exceptions/define';
+import MetaInfo from '../base/meta';
 
-export function clearMeta(): Promise<void> {
+export async function clearMeta() {
     return new Promise(resolve => {
         let handled = 0;
         const tmpDir = os.tmpdir();
@@ -19,3 +20,7 @@ export function clearMeta(): Promise<void> {
         })
     });
 }
+
+export async function clearClient(){}
+
+export async function clearPatch(meta: MetaInfo){}

@@ -1,4 +1,4 @@
-import CONFIG from '../config';
+import CONFIG from '../base/config';
 import { getCurrentVersion } from '../modules/version';
 import { ipcMain, Event, app } from 'electron';
 import * as Store from '../func-int/store';

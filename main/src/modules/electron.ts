@@ -1,5 +1,5 @@
 import { dialog, app } from 'electron';
-import mainWindow from '../global';
+import mainWindow from '../base/global';
 
 export function openDirDialog(callback: (path: string | undefined) => void) {
     dialog.showOpenDialog(mainWindow, {

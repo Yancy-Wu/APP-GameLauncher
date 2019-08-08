@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
-import CONFIG from '../config';
-import { getDirs } from '../func-int/ftp';
+import CONFIG from '../base/config';
+import listFtpDirs from '../func-int/ftp';
 import * as Store from '../func-int/store';
 
 export function getCurrentVersion(): string | undefined {
@@ -14,13 +14,13 @@ export function getCurrentVersion(): string | undefined {
 
 export async function getToUpdateVersions() {
     const version = getCurrentVersion();
-    let dirNames = await getDirs();
+    let dirNames = await listFtpDirs(CONFIG.remoteDataPath);
     dirNames.sort();
     return dirNames.slice(dirNames.indexOf(version!) + 1);
 }
 
 export async function getNewestClientVersion() {
-    let dirNames = await getDirs();
+    let dirNames = await listFtpDirs(CONFIG.remoteDataPath);
     dirNames.sort();
     return dirNames[dirNames.length - 1];
 }

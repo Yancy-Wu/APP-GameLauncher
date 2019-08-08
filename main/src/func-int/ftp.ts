@@ -1,12 +1,12 @@
 import ftp from 'ftp';
-import CONFIG from '../config';
+import CONFIG from '../base/config';
 import EXCEPTIONS from '../exceptions/define';
 
-export function getDirs(): Promise<string[]>{
+export default async function listFtpDirs(dir: string): Promise<string[]> {
     return new Promise(resolve => {
         let ftpClient = new ftp();
         ftpClient.on('ready', () => {
-            ftpClient.list('/', (_, list: any[]) => {
+            ftpClient.list(dir, (_, list: any[]) => {
                 ftpClient.end();
                 resolve(list.map(v => v.name));
             });

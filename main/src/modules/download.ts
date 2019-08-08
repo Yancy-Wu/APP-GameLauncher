@@ -1,36 +1,37 @@
 import fs from 'fs';
-import MetaInfo from './meta';
-import downloader from '../func-ext/download';
-import CONFIG from '../config';
-import { Progress } from '../types';
+import MetaInfo from '../base/meta';
+import Downloader from '../func-ext/download';
+import CONFIG from '../base/config';
 import * as Path from './filepath';
 
-export async function downloadMd5File(meta: MetaInfo, progress: Progress) {
-    const remotePath = meta.version + '/' + meta.md5ListFileUrl;
-    const localPath = Path.md5SavedPath(meta);
-    await downloader(remotePath, localPath, progress);
+export class Md5FileDownloader extends Downloader {
+    constructor(meta: MetaInfo) {
+        const remotePath = CONFIG.remoteDataPath + meta.version + '/' + meta.md5ListFileUrl;
+        const localPath = Path.md5SavedPath(meta);
+        super(remotePath, localPath);
+    }
 }
 
-export async function downloadClient(meta: MetaInfo, progress: Progress) {
-    const remotePath = meta.version + '/' + meta.exeFileUrl;
-    const localPath = Path.clientSavedPath(meta);
-    await downloader(remotePath, localPath, progress);
+export class ClientDownloader extends Downloader {
+    constructor(meta: MetaInfo) {
+        const remotePath = CONFIG.remoteDataPath + meta.version + '/' + meta.exeFileUrl;
+        const localPath = Path.clientSavedPath(meta);
+        super(remotePath, localPath);
+    }
 }
 
-export async function downloadPatch(meta: MetaInfo, progress: Progress) {
-    const remotePath = meta.version + '/' + meta.patchFileUrl;
-    const localPath = Path.patchSavedPath(meta);
-    await downloader(remotePath, localPath, progress);
+export class PatchDownloader extends Downloader {
+    constructor(meta: MetaInfo) {
+        const remotePath = CONFIG.remoteDataPath + meta.version + '/' + meta.patchFileUrl;
+        const localPath = Path.patchSavedPath(meta);
+        super(remotePath, localPath);
+    }
 }
 
-let version2MetaInfo = new Map();
 export async function downloadMeta(version: string) {
-    const saved = version2MetaInfo.get(version);
-    if (saved) return saved;
-    const remotePath = version + '/' + CONFIG.remoteMetaPath;
+    const remotePath = CONFIG.remoteDataPath + version + '/' + CONFIG.remoteMetaPath;
     const localPath = Path.metaSavedPath(version);
-    await downloader(remotePath, localPath, {progress: 0, done: false});
+    await new Downloader(remotePath, localPath).run();
     let meta = JSON.parse(fs.readFileSync(localPath).toString());
-    version2MetaInfo.set(version, meta);
     return meta;
 }

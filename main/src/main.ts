@@ -1,6 +1,6 @@
 // Modules to control application life and create native browser window
 import { app } from 'electron'
-import mainWindow, { init } from './global';
+import mainWindow, { init } from './base/global';
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -25,9 +25,3 @@ app.on('activate', function () {
 import './service/info'
 import './service/major'
 import './service/ui'
-
-import retry from './exceptions/retry';
-retry(() => {
-  console.log('fuck');
-  setTimeout(() => {throw new Error('hello')}, 1000);
-},['hello'],(_, num) => true, () => {});
